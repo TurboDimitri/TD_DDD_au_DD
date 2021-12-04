@@ -1,0 +1,11 @@
+1. Une fonction add-event qui ajoute un event a la liste des event d'une salle et qui marque le booleens booked a vrai pour tout les dates oú l'event prends place
+    Faire un sorte de traiter l'errur si on veut ajouter un event à une salle un jour ou c'est déjà booked
+
+2. Un algorithme de verification qui vérifie ces deux clauses sur l'ensemble des salles : 
+     • La mairie souhaite que l’on puisse organiser la programmation par semaine. On favorisera le
+    samedi et le dimanche pour programmer un ´ev`enement si toute la semaine ne peut ˆetre remplie.
+    • Chaque semaine doit proposer au moins un concert par salle si il y en a assez de disponible
+
+3.Une interface utilisateur pour avec les boutons:
+    -add event (l'utilisateur choisi ensuite l'event à ajouter et dans quelle salle)
+    -Verif 
