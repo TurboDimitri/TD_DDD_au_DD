@@ -1,20 +1,27 @@
+
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.xml.stream.events.EndDocument;
-
-public class Venue {
+public class Venue implements Serializable {
+    String name;
     int capacity;
     ArrayList<Event> events = new ArrayList<>();
     HashMap<String, TupleHour> hashtest = new HashMap<>();
 
-    public Venue(int capacity) {
+    public Venue(int capacity,String name) {
         this.capacity = capacity;
+        this.name = name;
+    }
+    public ArrayList<Event> getEvents(){
+        return this.events;
+    }
+    public String getName(){
+        return this.name;
     }
 
-    public void init(int year, int month, int dayOfMonth, int start, int end){
+    public void addOpenHour(int year, int month, int dayOfMonth, int start, int end){
         String date = dayOfMonth + "/" + month + "/" + year;
         if (start > 24 || start < 0 || end > 24 || end < 0){
             throw new IllegalArgumentException("Les heures sont pas bonnes mon reuf, arrête la picole.");
@@ -45,11 +52,13 @@ public class Venue {
          
     }
 
+    
 }
 
-class TupleHour {
+class TupleHour implements Serializable{
     int beginHour;
     int endHour;
+    boolean booked = false;
 
     TupleHour(int beginHour, int endHour) {
         if (beginHour > 24 || beginHour < 0 || endHour > 24 || endHour < 0){
