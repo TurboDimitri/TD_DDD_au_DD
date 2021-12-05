@@ -61,30 +61,4 @@ public class EventRepo {
     public void update(Event Event) {
         data.put(Event.getName(), Event);
     }
-
-    public void addEvent(Concert concert, Venue venue) {
-        if(venue.hashtest.containsKey(concert.getName()) && venue.hashtest.get(concert.getName()).booked){
-            throw new IllegalArgumentException("Un événement est déjà booké mon reufton aha t'es bargeot ou quoi ??");
-        }
-        else{
-            venue.events.add(concert);
-            venue.hashtest.put(concert.getName(), new TupleHour(concert.beginHour, concert.endHour));
-        }
-    }
-
-    public void addEvent(Theater theater, Venue venue) {
-        if (venue.hashtest.containsKey(theater.getName()) && venue.hashtest.get(theater.getName()).booked) {
-            throw new IllegalArgumentException("Un événement est déjà booké mon reufton aha t'es bargeot ou quoi ??");
-        }
-        else{
-            venue.events.add(theater);
-            LocalDate save = theater.dateBegin;
-            while(save.isBefore(theater.dateEnding)){
-                venue.hashtest.put(theater.getName(), new TupleHour(theater.beginHour, theater.endHour));
-                save.plusDays(1);
-            }
-        }
-
-    }
-
 }

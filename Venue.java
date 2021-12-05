@@ -8,7 +8,7 @@ public class Venue implements Serializable {
     String name;
     int capacity;
     ArrayList<Event> events = new ArrayList<>();
-    HashMap<String, TupleHour> hashtest = new HashMap<>();
+    HashMap<String, TupleHour> dispo = new HashMap<>();
 
     public Venue(int capacity, String name) {
         this.capacity = capacity;
@@ -36,22 +36,47 @@ public class Venue implements Serializable {
                     + dateSecondDay.getYear();
             TupleHour tupleFirstDay = new TupleHour(start, 24);
             TupleHour tupleSecondDay = new TupleHour(0, end);
-            if (!hashtest.containsKey(date) && !hashtest.containsKey(date2)) {
-                hashtest.put(date, tupleFirstDay);
-                hashtest.put(date2, tupleSecondDay);
+            if (!dispo.containsKey(date) && !dispo.containsKey(date2)) {
+                dispo.put(date, tupleFirstDay);
+                dispo.put(date2, tupleSecondDay);
             } else {
                 throw new IllegalArgumentException(
                         "Au moins une des deux dates est prise mon reuf................... arrête la picole putain !");
             }
         } else {
-            if (!hashtest.containsKey(date)) {
-                hashtest.put(date, new TupleHour(start, end));
+            if (!dispo.containsKey(date)) {
+                dispo.put(date, new TupleHour(start, end));
             } else {
                 throw new IllegalArgumentException(
                         "La date est prise mon reufton tu devrais considérer d'arrêter de boire non ?");
             }
         }
 
+    }
+
+    public void addTheatre(Theater theater){
+        LocalDate dateBegin = theater.getDate();
+        LocalDate dateEnding = theater.getEndDate();
+        while (dateBegin.isBefore(dateEnding)){
+            if (dispo.get(theater.getStringDate(dateBegin)).booked==true){
+                throw new IllegalArgumentException(
+                        "La date est prise mon reufton tu devrais considérer d'arrêter de boire non ?");
+            }else{
+                dispo.get(theater.getStringDate(dateBegin)).booked=true;
+                events.add(theater);
+                dateBegin.plusDays(1);
+            }
+        }
+    }
+
+    public void addConcert(Concert concert){
+        if (dispo.get(concert.getStringDate(concert.getDate())).booked==true){
+            throw new IllegalArgumentException(
+                    "La date est prise mon reufton tu devrais considérer d'arrêter de boire non ?");
+        }else{
+            dispo.get(concert.getStringDate(concert.getDate())).booked=true;
+                events.add(concert);
+        }
     }
 
 }
@@ -67,6 +92,5 @@ class TupleHour implements Serializable {
         }
         this.beginHour = beginHour;
         this.endHour = endHour;
-        booked = true;
     }
 }

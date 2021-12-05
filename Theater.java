@@ -10,5 +10,10 @@ public class Theater extends Event {
         this.name = name;
         this.capacity = capacity;
     }
-
+    public LocalDate getDate(){
+        return dateBegin;
+    }
+    public LocalDate getEndDate(){
+        return dateEnding;
+    }
 }
