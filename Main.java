@@ -4,34 +4,40 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Main {
     // Pour l'instant le main sors juste les Venue et leurs noms grace au repo que
     // j'ai créé une fois grace à createvenuerepo
     public static void main(String[] args) {
 
-        // createAVenueRepo();
-        ObjectInputStream iS;
-        FileInputStream finStream;
-        HashMap<String, Venue> data = new HashMap<>();
-        try {
-            finStream = new FileInputStream("VenueRepo.txt");
-            iS = new ObjectInputStream(finStream);
-            data = (HashMap<String, Venue>) iS.readObject();
-            iS.close();
-            finStream.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException | IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        for (String j : data.keySet()) {
-            System.out.println(j);
+        //createAVenueRepo();
+        VenueRepo repoObtained = new VenueRepo("VenueRepo.txt",false);
+        // ObjectInputStream iS;
+        // FileInputStream finStream;
+        // HashMap<String, Venue> data = new HashMap<>();
+        // try {
+        //     finStream = new FileInputStream("VenueRepo.txt");
+        //     iS = new ObjectInputStream(finStream);
+        //     data = (HashMap<String, Venue>) iS.readObject();
+        //     iS.close();
+        //     finStream.close();
+        // } catch (FileNotFoundException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (ClassNotFoundException | IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        for (Venue j : repoObtained.data.values()) {
+            for(int k : j.weeks){
+                System.out.println(k);
+            }         
         }
         System.out.println("");
+
 
     }
 
@@ -55,8 +61,12 @@ public class Main {
             }
         }
 
-        VenueRepo venueRepo = new VenueRepo("VenueRepo.txt");
+        VenueRepo venueRepo = new VenueRepo("VenueRepo.txt",true);
         venueRepo.update(Salle1);
         venueRepo.save(Salle2);
+    }
+
+    public static void createAnEventRepo(){
+        
     }
 }

@@ -11,6 +11,9 @@ public abstract class Event {
     }
     public String getStringDate(LocalDate date){
         return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+    }
+    public LocalDate getDate() {
+        return LocalDate.now();
     }    
    
 }

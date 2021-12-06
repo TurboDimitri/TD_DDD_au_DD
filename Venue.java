@@ -1,12 +1,16 @@
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class Venue implements Serializable {
     String name;
     int capacity;
+    ArrayList<Integer> weeks =new ArrayList<>();
     ArrayList<Event> events = new ArrayList<>();
     HashMap<String, TupleHour> dispo = new HashMap<>();
 
@@ -24,7 +28,7 @@ public class Venue implements Serializable {
     }
 
     public void addOpenHour(int year, int month, int dayOfMonth, int start, int end) {
-        String date = dayOfMonth + "/" + month + "/" + year;
+        String date = dayOfMonth + "-" + month + "-" + year;
         if (start > 24 || start < 0 || end > 24 || end < 0) {
             throw new IllegalArgumentException("Les heures sont pas bonnes mon reuf, arrête la picole.");
         }
@@ -32,7 +36,7 @@ public class Venue implements Serializable {
             LocalDate dateFirstDay = LocalDate.of(year, month, dayOfMonth);
             LocalDate dateSecondDay = LocalDate.ofYearDay(year, dateFirstDay.getDayOfYear() + 1);
             // On ajoute une journée au premier calendrier si l'event fini apres minuit
-            String date2 = dateSecondDay.getDayOfMonth() + "/" + dateSecondDay.getMonthValue() + "/"
+            String date2 = dateSecondDay.getDayOfMonth() + "-" + dateSecondDay.getMonthValue() + "-"
                     + dateSecondDay.getYear();
             TupleHour tupleFirstDay = new TupleHour(start, 24);
             TupleHour tupleSecondDay = new TupleHour(0, end);
@@ -64,6 +68,9 @@ public class Venue implements Serializable {
             }else{
                 dispo.get(theater.getStringDate(dateBegin)).booked=true;
                 events.add(theater);
+                if(!weeks.contains(dateBegin.get(WeekFields.of(Locale.FRANCE).weekOfYear()))){
+                    weeks.add(dateBegin.get(WeekFields.of(Locale.FRANCE).weekOfYear()));
+                }
                 dateBegin.plusDays(1);
             }
         }
@@ -75,7 +82,10 @@ public class Venue implements Serializable {
                     "La date est prise mon reufton tu devrais considérer d'arrêter de boire non ?");
         }else{
             dispo.get(concert.getStringDate(concert.getDate())).booked=true;
-                events.add(concert);
+            events.add(concert);
+            if(!weeks.contains(concert.getDate().get(WeekFields.of(Locale.FRANCE).weekOfYear()))){
+                weeks.add(concert.getDate().get(WeekFields.of(Locale.FRANCE).weekOfYear()));
+            }
         }
     }
 
